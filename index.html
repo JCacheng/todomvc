@@ -9,34 +9,38 @@
 		<link rel="stylesheet" href="css/app.css">
 	</head>
 	<body>
-		<section class="todoapp">
+		<section id="app" class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-				<input class="new-todo" placeholder="What needs to be done?" autofocus>
+				<input class="new-todo" placeholder="What needs to be done?" v-focus>
 			</header>
-			<section class="main">
+			<section 
+				class="main"
+				v-if="dataList.length">
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
-					<li class="completed">
+					<!-- 根据isFinish的值决定是否有横线 -->
+					<li 
+						:class="{completed : item.isFinish}"
+						v-for="item in dataList" 
+						:key="item.id">
 						<div class="view">
-							<input class="toggle" type="checkbox" checked>
-							<label>Taste JavaScript</label>
+							<input 
+								class="toggle" 
+								type="checkbox" 
+								v-model="item.isFinish"
+								:checked="item.isFinish">
+							<label>{{item.content}}</label>
 							<button class="destroy"></button>
 						</div>
 						<input class="edit" value="Create a TodoMVC template">
 					</li>
-					<li>
-						<div class="view">
-							<input class="toggle" type="checkbox">
-							<label>Buy a unicorn</label>
-							<button class="destroy"></button>
-						</div>
-						<input class="edit" value="Rule the web">
-					</li>
 				</ul>
 			</section>
-			<footer class="footer">
+			<footer 
+				class="footer"
+				v-if="dataList.length">
 				<span class="todo-count"><strong>0</strong> item left</span>
 				<ul class="filters">
 					<li>
