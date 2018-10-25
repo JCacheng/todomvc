@@ -12,18 +12,27 @@
 		<section id="app" class="todoapp">
 			<header class="header">
 				<h1>todos</h1>
-				<input class="new-todo" placeholder="What needs to be done?" v-focus>
+				<input 
+					class="new-todo" 
+					placeholder="What needs to be done?" 
+					v-focus
+					v-model="newTodo"
+					@keyup.enter="addTodo">
 			</header>
 			<section 
 				class="main"
 				v-if="dataList.length">
-				<input id="toggle-all" class="toggle-all" type="checkbox">
+				<input 
+					id="toggle-all" 
+					class="toggle-all" 
+					type="checkbox"
+					v-model="toggleAll">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
 					<!-- 根据isFinish的值决定是否有横线 -->
 					<li 
 						:class="{completed : item.isFinish}"
-						v-for="item in dataList" 
+						v-for="(item, index) in dataList" 
 						:key="item.id">
 						<div class="view">
 							<input 
@@ -32,7 +41,9 @@
 								v-model="item.isFinish"
 								:checked="item.isFinish">
 							<label>{{item.content}}</label>
-							<button class="destroy"></button>
+							<button 
+								class="destroy"
+								@click.prevent="delTodo(index)"></button>
 						</div>
 						<input class="edit" value="Create a TodoMVC template">
 					</li>
@@ -41,7 +52,7 @@
 			<footer 
 				class="footer"
 				v-if="dataList.length">
-				<span class="todo-count"><strong>0</strong> item left</span>
+				<span class="todo-count"><strong> {{activeNum}} </strong> item left</span>
 				<ul class="filters">
 					<li>
 						<a class="selected" href="#/">All</a>
@@ -53,7 +64,10 @@
 						<a href="#/completed">Completed</a>
 					</li>
 				</ul>
-				<button class="clear-completed">Clear completed</button>
+				<button 
+					class="clear-completed"
+					v-show="activeNum !== dataList.length"
+					@click.prevent="delAll">Clear completed</button>
 			</footer>
 		</section>
 		<footer class="info">
