@@ -1,5 +1,4 @@
 (function (window, Vue, undefined) {
-
 	new Vue({
 		el: '#app',
 		data: {
@@ -8,16 +7,6 @@
 			beforeUpdate: {},
 			activeBtn: 1,
 			showArr: []
-		},
-		watch: {
-			dataList: {
-				handler(newArr) {
-					window.localStorage.setItem('dataList', JSON.stringify(newArr));
-					// 判断当前显示的三大列表之一是否有可以显示数据  如果没有 跳转至所有显示
-					this.hashchange();
-				},
-				deep: true
-			}
 		},
 		methods: {
 			// 添加一个todo
@@ -76,14 +65,24 @@
 				}
 			},
 			// 显示所有 创建一个显示的数组
-			showAll() {
+			showAll () {
 				this.showArr = this.dataList.map(() => true)
 			},
 			// 修改显示的数组使用 就是显示活动的
 			activeAll(boo) {
-				this.showAll = this.dataList.map(item => item.isFinish === boo);
+				this.showArr = this.dataList.map(item => item.isFinish === boo);
 				// 在切换到active等页面显示列表的时候 使用全部删除同样需要判断当前还是否有可显示的数据 没有就跳转
 				if (this.dataList.every(item => item.isFinish === !boo)) return window.location.hash = '#/';
+			}
+		},
+		watch: {
+			dataList: {
+				handler(newArr) {
+					window.localStorage.setItem('dataList', JSON.stringify(newArr));
+					// 判断当前显示的三大列表之一是否有可以显示数据  如果没有 跳转至所有显示
+					this.hashchange();
+				},
+				deep: true
 			}
 		},
 		//计算属性
@@ -112,12 +111,9 @@
 		// 生命周期 在最一开始就执行 这个钩子函数在创建了数据后还没有开始渲染页面时触发 如data methods装载在vue实例后就执行
 		created() {
 			this.hashchange();
-			window.onhashchange = function () {
+			window.onhashchange = () => {
 				this.hashchange();
 			}
 		}
-
 	})
-
-
 })(window, Vue);
