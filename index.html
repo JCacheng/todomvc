@@ -51,7 +51,8 @@
 						<input 
 							class="edit" 
 							v-model="item.content"
-							@keyup.enter="updeteTodo(index)">
+							@keyup.enter="updeteTodo(index)"
+							@keyup.esc="backTodo(index)">
 					</li>
 				</ul>
 			</section>

@@ -46,6 +46,12 @@
 				if (this.dataList[index].content !== this.beforeUpdate.content) this.dataList[index].isFinish = false;
 				this.$refs.show[index].classList.remove('editing');
 				this.beforeUpdate = {};
+			},
+			// esc还原内容
+			backTodo(index) {
+				this.dataList[index].content = this.beforeUpdate.content;
+				this.$refs.show[index].classList.remove('editing');
+				this.beforeUpdate = {};
 			}
 		},
 		//计算属性
