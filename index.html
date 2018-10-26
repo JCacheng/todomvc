@@ -35,6 +35,7 @@
 						v-for="(item, index) in dataList" 
 						:key="item.id"
 						ref="show"
+						v-show="showArr[index]"
 						@dblclick.prevent="showEdit(index)">
 						<div class="view">
 							<input 
@@ -62,13 +63,13 @@
 				<span class="todo-count"><strong> {{activeNum}} </strong> item left</span>
 				<ul class="filters">
 					<li>
-						<a class="selected" href="#/">All</a>
+						<a :class="{selected: activeBtn === 1}" href="#/">All</a>
 					</li>
 					<li>
-						<a href="#/active">Active</a>
+						<a :class="{selected: activeBtn === 2}" href="#/active">Active</a>
 					</li>
 					<li>
-						<a href="#/completed">Completed</a>
+						<a :class="{selected: activeBtn === 3}" href="#/completed">Completed</a>
 					</li>
 				</ul>
 				<button 
