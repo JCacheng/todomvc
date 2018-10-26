@@ -33,7 +33,9 @@
 					<li 
 						:class="{completed : item.isFinish}"
 						v-for="(item, index) in dataList" 
-						:key="item.id">
+						:key="item.id"
+						ref="show"
+						@dblclick.prevent="showEdit(index)">
 						<div class="view">
 							<input 
 								class="toggle" 
@@ -43,9 +45,13 @@
 							<label>{{item.content}}</label>
 							<button 
 								class="destroy"
-								@click.prevent="delTodo(index)"></button>
+								@click.prevent="delTodo(index)">
+							</button>
 						</div>
-						<input class="edit" value="Create a TodoMVC template">
+						<input 
+							class="edit" 
+							v-model="item.content"
+							@keyup.enter="updeteTodo(index)">
 					</li>
 				</ul>
 			</section>

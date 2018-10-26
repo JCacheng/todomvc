@@ -4,7 +4,8 @@
 		el: '#app',
 		data: {
 			dataList: JSON.parse(window.localStorage.getItem('dataList')) || [],
-			newTodo: ''
+			newTodo: '',
+			beforeUpdate: {}
 		},
 		watch: {
 			dataList: {
@@ -32,6 +33,19 @@
 			// 删除所有的todo
 			delAll() {
 				this.dataList = this.dataList.filter(item => !item.isFinish)
+			},
+			//给当前li添加editing类名 显示编辑文本框
+			showEdit(index) {
+				this.$refs.show.forEach(item => { return item.classList.remove('editing'); });
+				this.$refs.show[index].classList.add('editing');
+				this.beforeUpdate = JSON.parse(JSON.stringify(this.dataList[index]));
+			},
+			//真正的编辑内容事件
+			updeteTodo(index) {
+				if (!this.dataList[index].content.trim()) return this.dataList.splice(index, 1);
+				if (this.dataList[index].content !== this.beforeUpdate.content) this.dataList[index].isFinish = false;
+				this.$refs.show[index].classList.remove('editing');
+				this.beforeUpdate = {};
 			}
 		},
 		//计算属性
